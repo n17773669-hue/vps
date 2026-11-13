@@ -1,0 +1,27 @@
+let autoRollActive = false;
+let autoRollInterval = null;
+let autoRollSpeed = 500; // Tốc độ mặc định: nửa giây tung 1 lần
+
+function toggleAutoRoll() {
+    autoRollActive = !autoRollActive;
+    if (autoRollActive) {
+        document.getElementById('autoBtn').innerText = "Tắt Auto";
+        autoRollInterval = setInterval(() => {
+            rollDice(); // Hàm thực hiện hành động tung xúc xắc
+        }, autoRollSpeed);
+    } else {
+        document.getElementById('autoBtn').innerText = "Bật Auto";
+        clearInterval(autoRollInterval);
+    }
+}
+
+// Khi người chơi mua nâng cấp tốc độ auto:
+function upgradeAutoSpeed() {
+    if (autoRollSpeed > 100) { // Giới hạn tốc độ tối đa không bị tràn khung hình
+        autoRollSpeed -= 100; 
+        if (autoRollActive) {
+            clearInterval(autoRollInterval);
+            autoRollInterval = setInterval(rollDice, autoRollSpeed);
+        }
+    }
+}
